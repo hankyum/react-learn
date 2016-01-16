@@ -71,12 +71,14 @@ let App = connect(
       state: state
     };
   },
-  (dispatch) => {
-    return bindActionCreators({
-      increment, decrement, incrementIfOdd, reset
-    }, dispatch);
+  //(dispatch) => {
+  //  return bindActionCreators({
+  //    increment, decrement, incrementIfOdd, reset
+  //  }, dispatch);
+  //}
+  {
+    increment, decrement, incrementIfOdd, reset
   }
-
   //{
   //  increment: ()=> {
   //    return (dispatch, getState) => {

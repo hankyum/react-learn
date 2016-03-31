@@ -16,3 +16,4 @@ export const incrementIfOdd = ()=> {
     dispatch(increment({num: 1}));
   }
 };
+export const test = createAction("TEST");

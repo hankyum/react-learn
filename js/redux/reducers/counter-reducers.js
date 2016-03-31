@@ -7,6 +7,13 @@ const reducerMap = {
   "RESET": ()=> 0
 };
 
+const testReducerMap = {
+  "TEST": (count, state) => {
+    console.log("Test Reducer " + JSON.stringify(count) + "   " + state);
+    return count + state;
+  }
+};
+
 const createReducer = (reducerMap, initial = 0) => {
   return (state = initial, {type, payload}) => {
     if (typeof reducerMap[type] === "function") {
@@ -17,3 +24,4 @@ const createReducer = (reducerMap, initial = 0) => {
 };
 
 export const counterReducer = createReducer(reducerMap, 0);
+export const testReducer = createReducer(testReducerMap, 0);

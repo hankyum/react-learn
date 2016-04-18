@@ -5,9 +5,9 @@ export default class MainApp extends Component {
   render() {
     return (
       <div>
-        <h1>React Router App</h1>
+        <h1>React Router App Demos</h1>
         <ul>
-          <li><Link to="hello/Hank">Hello Demo</Link></li>
+          <li><Link to="/hello/Hank">Hello Demo</Link></li>
           <li><Link to="/todo">Flux Demo</Link></li>
           <li><Link to="/counter">Redux Counter Demo</Link></li>
         </ul>

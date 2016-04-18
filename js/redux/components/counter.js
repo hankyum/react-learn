@@ -4,8 +4,6 @@
 import React, {Component} from "react";
 import {connect, Provider} from "react-redux";
 import {decrement, increment, reset, test} from "../actions/counter-actions";
-import {counterReducer, testReducer} from "../reducers/counter-reducers";
-import configStore from "../redux/configure-store";
 
 class IncrementBtn extends Component {
   render() {
@@ -14,6 +12,13 @@ class IncrementBtn extends Component {
 }
 
 class Counter extends Component {
+
+  _incrementIfOdd() {
+    if (this.props.state % 2 === 1) {
+      this.props.incrementIfOdd();
+    }
+  }
+
   render() {
     return (
       <div>
@@ -23,7 +28,8 @@ class Counter extends Component {
         <IncrementBtn {...this.props}/>
         <button onClick={this.props.increment5}>+5</button>
         <button onClick={this.props.reset}>Reset</button>
-        <button onClick={this.props.incrementIfOdd}>incrementIfOdd</button>
+        <button onClick={() => this._incrementIfOdd()}>incrementIfOdd
+        </button>
         <button onClick={this.props.decrement}>-</button>
         <button onClick={this.props.test}>Test</button>
         <IncrementBtn {...this.props}/>
@@ -42,7 +48,9 @@ let App = connect(
   },
   (dispatch) => {
     return {
-      increment: () => dispatch(increment({num: 1})),
+      increment: () => {
+        dispatch(increment({num: 1}));
+      },
       increment5: () => dispatch(increment({num: 5})),
       reset: () => dispatch(reset(0)),
       decrement: () => dispatch(decrement(-1)),
@@ -53,28 +61,7 @@ let App = connect(
         dispatch(test(1));
       }
     }
-    //{
-    //  incrementIfOdd: ()=> {
-    //  return (dispatch, getState) => {
-    //    console.log(getState);
-    //    const counter = getState();
-    //    console.log(counter);
-    //    if (counter.counter % 2 === 0) {
-    //      return;
-    //    }
-    //    dispatch(increment({num: 1}));
-    //  }
-    //}
   }
 )(Counter);
 
-export default class CounterApp extends Component {
-  render() {
-    return <Provider store={configStore({
-      counter: counterReducer,
-      test: testReducer
-    })}>
-      <App/>
-    </Provider>
-  }
-}
+export default App;

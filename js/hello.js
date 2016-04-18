@@ -1,4 +1,4 @@
-import Styles from './hello.css'
+import Styles from '../styles/hello.css';
 import React from 'react';
 
 export default class Hello extends React.Component {

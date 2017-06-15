@@ -1,7 +1,7 @@
-import React, {Component} from "react";
-import {Link} from 'react-router';
+import React, { Component } from "react";
+import { Link } from 'react-router-dom';
 
-export default class MainApp extends Component {
+export default class extends Component {
   render() {
     return (
       <div>
@@ -11,9 +11,6 @@ export default class MainApp extends Component {
           <li><Link to="/todo">Flux Demo</Link></li>
           <li><Link to="/counter">Redux Counter Demo</Link></li>
         </ul>
-        <div>
-          {this.props.children}
-        </div>
       </div>
     )
   }

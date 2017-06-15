@@ -7,25 +7,11 @@ const port = (process.env.PORT + 1) || 3001;
 const dist = path.resolve(__dirname, "/static/");
 
 export default {
-  /* entry: {
-   dev: [
-   "webpack-dev-server/client?http://" + host + ":" + port,
-   'webpack/hot/only-dev-server'
-   ],
-   app: './app',
-   vendor: [
-   'react',
-   'react-router',
-   'redux',
-   'react-dom',
-   'bluebird',
-   'history'
-   ]
-   }*/
   entry: [
     "webpack-dev-server/client?http://" + host + ":" + port,
     'webpack/hot/only-dev-server',
-    './app.js'
+    'react-hot-loader/patch',
+    './js/client.js'
   ],
   output: {
     filename: 'bundle.js',
@@ -36,7 +22,7 @@ export default {
     loaders: [{
       test: /\.js$/,
       exclude: /node_modules/,
-      loaders: ['react-hot', 'babel']
+      loaders: ['babel']
     }, {
       test: /\.css$/,
       loader: 'style!css'
@@ -60,6 +46,6 @@ export default {
     new WebpackErrorNotificationPlugin()
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx', '.coffee']
+    extensions: ['', '.js', '.jsx']
   }
 };

@@ -1,0 +1,13 @@
+h1 {
+	color: #130eff;
+}
+
+.test-background {
+	height: 500px;
+	width: 500px;
+	background: url(./tile.png) no-repeat;
+}
+
+.nav {
+	display: inline-block;
+}

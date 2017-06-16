@@ -1,17 +1,14 @@
 import path from "path";
 import webpack from "webpack";
-import WebpackErrorNotificationPlugin from "webpack-error-notification";
-
-const host = process.env.HOST || "localhost";
-const port = (process.env.PORT + 1) || 3001;
 const dist = path.resolve(__dirname, "/static/");
 
 export default {
+  name: "client",
+  devtool: 'eval-source-map',
   entry: [
-    "webpack-dev-server/client?http://" + host + ":" + port,
-    'webpack/hot/only-dev-server',
+    'webpack-hot-middleware/client',
     'react-hot-loader/patch',
-    './js/client.js'
+    './src/client.js'
   ],
   output: {
     filename: 'bundle.js',
@@ -19,33 +16,34 @@ export default {
     publicPath: "/static/"
   },
   module: {
-    loaders: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loaders: ['babel']
-    }, {
-      test: /\.css$/,
-      loader: 'style!css'
-    }, {
-      test: /\.(png|jpg)$/,
-      loader: 'url?limit=8192'
-    }]
+    loaders: [
+      {
+        test: /\.js$/,
+        use: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'isomorphic-style-loader',
+          'css-loader?modules'
+        ]
+      },
+      {
+        test: /\.(png|jpg)$/,
+        use: 'url?limit=8192'
+      }]
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    //new webpack.optimize.CommonsChunkPlugin({
-    //  name: 'vendor',
-    //  filname: 'vendor.js'
-    //}),
-    //new webpack.DefinePlugin({
-    //  "process.env": {
-    //    NODE_ENV: JSON.stringify("development"),
-    //    BROWSER: JSON.stringify(true)
-    //  }
-    //}),
-    new WebpackErrorNotificationPlugin()
+    new webpack.NoEmitOnErrorsPlugin()
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    modules: [
+      'node_modules',
+      path.resolve(__dirname, '../src'),
+      path.resolve(__dirname, '../server')
+    ],
+    extensions: ['.js', '.json', '.jsx', '.css']
   }
 };

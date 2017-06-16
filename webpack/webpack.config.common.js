@@ -1,19 +1,12 @@
-const path = require('path')
+import path from 'path';
 
-module.exports = {
+export default {
   module: {
     rules: [
       {
         test: /\.js$/,
         use: 'babel-loader',
         exclude: /node_modules/
-      },
-      {
-        test: /\.css$/,
-        use: [
-          'isomorphic-style-loader',
-          'css-loader?modules'
-        ]
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2)$/,
@@ -29,10 +22,11 @@ module.exports = {
   resolve: {
     modules: [
       'node_modules',
-      path.resolve(__dirname, '../app'),
+      path.resolve(__dirname, '../src'),
+      path.resolve(__dirname, '../src/styles'),
       path.resolve(__dirname, '../server')
     ],
 
     extensions: ['.js', '.json', '.jsx', '.css']
   }
-}
+};

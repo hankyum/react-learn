@@ -7,7 +7,7 @@ import FluxDemo from "../flux/app";
 import Header from "./Header"
 import Hello from "./Hello";
 import configStore from "../redux/store/configureStore";
-import css from "../styles/app.css";
+import "../styles/app.css";
 
 const routes = (
   <div>

@@ -8,6 +8,7 @@ h1 {
 	background: url(./tile.png) no-repeat;
 }
 
-.nav {
+.nav li {
 	display: inline-block;
+	margin-left: 15px;
 }

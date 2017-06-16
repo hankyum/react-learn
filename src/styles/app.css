@@ -12,3 +12,11 @@ h1 {
 	display: inline-block;
 	margin-left: 15px;
 }
+
+.main-content {
+	margin-left: 30px;
+}
+
+.main-content h1 {
+	color: #70ff78
+}

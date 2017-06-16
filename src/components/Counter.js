@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { decrement, increment, reset, test } from "../redux/actions/counter-actions";
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 class IncrementBtn extends Component {
   render() {
@@ -38,6 +39,7 @@ class Counter extends Component {
         </button>
         <button onClick={this.props.decrement}>-</button>
         <button onClick={this.props.onTest}>Test</button>
+        <a href="/counter/55?test=100">Test with /counter/55?test=100</a>
       </div>
     )
   }

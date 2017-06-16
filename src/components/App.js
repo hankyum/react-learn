@@ -2,21 +2,19 @@ import React from 'react'
 import { canUseDOM } from "exenv";
 import { Provider } from 'react-redux'
 import { BrowserRouter, StaticRouter, Switch, Route } from 'react-router-dom'
-import Counter from "./Counter";
-import FluxDemo from "../flux/app";
 import Header from "./Header"
-import Hello from "./Hello";
 import configStore from "../redux/store/configureStore";
 import "../styles/app.css";
+import routes from "./routes";
 
-const routes = (
+const RouteApp = (
   <div>
     <Header/>
-    <Switch>
-      <Route path='/counter' component={Counter}/>
-      <Route path='/todo' component={FluxDemo}/>
-      <Route path='/hello/Hank' component={Hello}/>
-    </Switch>
+    <div className="main-content">
+      <Switch>
+        { routes.map( route => <Route key={ route.path } { ...route } /> ) }
+      </Switch>
+    </div>
   </div>
 );
 
@@ -27,11 +25,11 @@ export default ({ server, location, context, store }) => {
         server ?
           (
             <StaticRouter location={location} context={context}>
-              {routes}
+              {RouteApp}
             </StaticRouter>) :
           (
             <BrowserRouter>
-              {routes}
+              {RouteApp}
             </BrowserRouter>
           )
       }

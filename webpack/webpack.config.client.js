@@ -10,7 +10,6 @@ const cssExtract =  new ExtractTextPlugin("style.css");
 
 export default webpackMerge(commonConfig, {
   name: 'client',
-  // devtool: 'eval-source-map',
   devtool: 'source-map',
   target: 'web',
   context: path.resolve(__dirname, '../src'),
@@ -46,7 +45,7 @@ export default webpackMerge(commonConfig, {
     new HtmlWebpackHarddiskPlugin(),
     cssExtract,
     new HtmlWebpackPlugin({
-      title: 'React Server-Side Rendering',
+      title: 'Server Side Rendering of React Redux v15',
       appMountId: 'react-root',
       appMountContent: '<%- html %>',
       window: {

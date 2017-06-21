@@ -4,8 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server --exec babel-node",
-    "dev": "node server/devServer.js",
+    "start1": "nodemon src/server --exec babel-node",
+    "build": "babel-node tools/bundle",
+    "start": "babel-node tools/start",
+    "serve": "node dist/server",
     "lint": "eslint src"
   },
   "author": "Hank Guo",
@@ -39,6 +41,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-2": "^6.3.13",
     "babel-register": "^6.7.2",
+    "browser-sync": "^2.18.12",
     "css-loader": "^0.28.4",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^0.8.5",
@@ -48,6 +51,7 @@
     "mocha": "^2.4.5",
     "nodemon": "^1.8.1",
     "react-hot-loader": "^3.0.0-beta.7",
+    "smocks": "^7.2.2",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.7",
     "webpack": "^2.6.1",

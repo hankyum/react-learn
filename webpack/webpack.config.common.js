@@ -22,11 +22,8 @@ export default {
   resolve: {
     modules: [
       'node_modules',
-      path.resolve(__dirname, '../src'),
-      path.resolve(__dirname, '../src/styles'),
-      path.resolve(__dirname, '../server')
+      path.resolve(__dirname, '../src')
     ],
-
     extensions: ['.js', '.json', '.jsx', '.css']
   }
 };

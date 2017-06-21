@@ -5,10 +5,9 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'; // eslint-disabl
 import nodeExternals from 'webpack-node-externals';
 
 export default webpackMerge(commonConfig, {
-
   name: 'server',
-  devtool: 'source-map',
-  entry: './serverSideRender.js',
+
+  entry: 'server.js',
 
   module: {
     rules: [
@@ -19,14 +18,13 @@ export default webpackMerge(commonConfig, {
     ]
   },
 
-  context: path.resolve(__dirname, '../server'),
+  context: path.resolve(__dirname, '../src'),
 
   output: {
     filename: 'server.js',
     path: path.resolve(__dirname, '../dist'),
     libraryTarget: 'commonjs2'
-  }
-  ,
+  },
 
   target: 'node', // in order to ignore built-in modules like path, fs, etc.
 
@@ -36,8 +34,7 @@ export default webpackMerge(commonConfig, {
 
   node: {
     __dirname: false
-  }
-  ,
+  },
 
   plugins: [
     // new BundleAnalyzerPlugin() // Uncomment this line to analyze the size of your bundle

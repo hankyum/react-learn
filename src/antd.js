@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDom from "react-dom";
-import App from "./components/App";
+import APP from "./components/App";
 
-ReactDom.render(<App/>, document.querySelector('#app'));
+ReactDom.render(<APP/>, document.querySelector('#app'));
 
 if (module.hot) {
   module.hot.accept();

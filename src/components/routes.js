@@ -1,6 +1,7 @@
 import Counter from "./Counter";
 import FluxDemo from "../flux/app";
 import Hello from "./Hello";
+import Home from "./Home";
 import { increment, test as testAction } from "../redux/actions/counter-actions";
 
 export default [
@@ -20,6 +21,12 @@ export default [
   {
     path: "/hello",
     component: Hello,
+    actions: []
+  },
+  {
+    exact: true,
+    path: "/",
+    component: Home,
     actions: []
   }
 ];

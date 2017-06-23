@@ -3,18 +3,18 @@ import { connect } from "react-redux";
 import { decrement, increment, reset, test } from "../redux/actions/counter-actions";
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Button } from "antd";
 
 class IncrementBtn extends Component {
   render() {
-    return <button onClick={this.props.increment}>Add Num</button>
+    return <Button onClick={this.props.increment}>Add Num</Button>
   }
 }
 
 class Counter extends Component {
 
   constructor(props) {
-    console.log("Constructor of counter props received: ", props);
+    // console.log("Constructor of counter props received: ", props);
     super(props);
   }
 
@@ -26,19 +26,19 @@ class Counter extends Component {
 
   render() {
     const { data, test } = this.props;
-    console.log("From render method: ", this.props);
+    // console.log("From render method: ", this.props);
     return (
       <div>
-        <h1>Counter</h1>
+        <h1>Counter Test3</h1>
         <p>Default Reducer: {data}</p>
         <p>Test Reducer: {test}</p>
         <IncrementBtn {...this.props}/>
-        <button onClick={this.props.increment5}>+5</button>
-        <button onClick={this.props.reset}>Reset</button>
-        <button onClick={() => this._incrementIfOdd()}>incrementIfOdd
-        </button>
-        <button onClick={this.props.decrement}>-</button>
-        <button onClick={this.props.onTest}>Test</button>
+        <Button onClick={this.props.increment5}>+5</Button>
+        <Button onClick={this.props.reset}>Reset</Button>
+        <Button onClick={() => this._incrementIfOdd()}>incrementIfOdd
+        </Button>
+        <Button onClick={this.props.decrement}>-</Button>
+        <Button onClick={this.props.onTest}>Test</Button>
         <a href="/counter/55?test=100">Test with /counter/55?test=100</a>
       </div>
     )
@@ -52,7 +52,7 @@ Counter.propTypes = {
 
 export default withRouter(connect(
   (state) => {
-    console.log("When connect state " + JSON.stringify(state));
+    // console.log("When connect state " + JSON.stringify(state));
     return {
       data: state.counter,
       test: state.test

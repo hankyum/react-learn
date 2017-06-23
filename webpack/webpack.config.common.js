@@ -4,29 +4,54 @@ export default {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        use: 'babel-loader',
+        test: /\.js[x]?$/,
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            "presets": [
+              "es2015",
+              "stage-0",
+              "react"
+            ],
+            "plugins": [
+              [
+                "import",
+                {
+                  "style": "css",
+                  "libraryName": "antd"
+                }
+              ],
+              [
+                "css-modules-transform"
+              ]
+            ]
+          }
+        }],
         exclude: /node_modules/
-      },
-      {
+      }, {
         test: /\.(eot|svg|ttf|woff|woff2)$/,
         use: 'file-loader'
-      },
-      {
+      }, {
         test: /\.(png|jpg)$/,
         use: 'url-loader?limit=8192'
+      }, {
+        // test: /\.css$/,
+        // use: ExtractTextPlugin.extract({
+        //   fallback: 'isomorphic-style-loader',
+        //   use: [{
+        //     loader: "css-loader",
+        //     query: {
+        //       modules: true
+        //     }
+        //   }]
+        // })
       }
     ]
   },
 
+  // ant需要
   resolve: {
-    modules: [
-      'node_modules',
-      path.resolve(__dirname, '../src'),
-      path.resolve(__dirname, '../src/styles'),
-      path.resolve(__dirname, '../server')
-    ],
-
-    extensions: ['.js', '.json', '.jsx', '.css']
+    modules: ['node_modules', path.join(__dirname, './node_modules')],
+    extensions: ['.web.js', '.js', '.json', '.jsx', '.css']
   }
 };

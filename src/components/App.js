@@ -4,36 +4,45 @@ import { Provider } from 'react-redux'
 import { BrowserRouter, StaticRouter, Switch, Route } from 'react-router-dom'
 import Header from "./Header"
 import configStore from "../redux/store/configureStore";
-import "../styles/app.css";
 import routes from "./routes";
+import { REDUX_INIT_STATE } from '../config';
+import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+const { SubMenu } = Menu;
+const { Content, Sider } = Layout;
+import "../styles/app.css";
+import "antd/dist/antd.css";
 
 const RouteApp = (
-  <div>
-    <Header/>
-    <div className="main-content">
-      <Switch>
-        { routes.map( route => <Route key={ route.path } { ...route } /> ) }
-      </Switch>
-    </div>
-  </div>
+  <Switch>
+    <Layout>
+      <Header/>
+      <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
+        <div className="main-content">
+          { routes.map(route => <Route key={ route.path } { ...route } />) }
+        </div>
+      </Content>
+    </Layout>
+  </Switch>
 );
 
-export default ({ server, location, context, store }) => {
+export default ({ server, location = "/", context = {}, store }) => {
   return (
-    <Provider store={store || configStore(canUseDOM && window.__PRELOADED_STATE__ || {})}>
-      {
-        server ?
-          (
-            <StaticRouter location={location} context={context}>
-              {RouteApp}
-            </StaticRouter>) :
-          (
-            <BrowserRouter>
-              {RouteApp}
-            </BrowserRouter>
-          )
-      }
-    </Provider>
+    <div>
+      <Provider store={store || configStore(canUseDOM && window[REDUX_INIT_STATE] || {})}>
+        {
+          server ?
+            (
+              <StaticRouter location={location} context={context}>
+                {RouteApp}
+              </StaticRouter>) :
+            (
+              <BrowserRouter>
+                {RouteApp}
+              </BrowserRouter>
+            )
+        }
+      </Provider>
+    </div>
   )
 };
 

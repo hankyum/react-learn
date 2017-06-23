@@ -1,17 +1,27 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
+import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+const { SubMenu } = Menu;
+const { Header, Content, Sider } = Layout;
 
 export default class extends Component {
+
   render() {
     return (
-      <div>
-        <h1>React Router App Demos</h1>
-        <ul className="nav">
-          <li><Link to="/hello">Hello Demo1</Link></li>
-          <li><Link to="/todo">Flux Demo</Link></li>
-          <li><Link to="/counter/0">Redux Counter Demo</Link></li>
-        </ul>
-      </div>
+      <Header className="header">
+        <div className="logo"/>
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={['1']}
+          style={{ lineHeight: '64px' }}
+        >
+          <Menu.Item key="1"><Link exact to="/">Home</Link></Menu.Item>
+          <Menu.Item key="2"><Link to="/hello">Hello Demo</Link></Menu.Item>
+          <Menu.Item key="3"><Link to="/todo">Flux Demo</Link></Menu.Item>
+          <Menu.Item key="4"><Link to="/counter/0">Redux Counter Demo</Link></Menu.Item>
+        </Menu>
+      </Header>
     )
   }
 }

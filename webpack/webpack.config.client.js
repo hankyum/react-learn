@@ -1,67 +1,64 @@
-import webpack from 'webpack';
 import path from 'path';
-import HtmlWebpackHarddiskPlugin from 'html-webpack-harddisk-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import webpackMerge from 'webpack-merge';
 import commonConfig from './webpack.config.common';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'; // eslint-disable-line no-unused-vars
 import ExtractTextPlugin from "extract-text-webpack-plugin";
-const cssExtract =  new ExtractTextPlugin("style.css");
+import AssetsPlugin from 'assets-webpack-plugin';
 
 export default webpackMerge(commonConfig, {
   name: 'client',
-  // devtool: 'eval-source-map',
   devtool: 'source-map',
   target: 'web',
   context: path.resolve(__dirname, '../src'),
 
-  entry: [
-    'webpack-hot-middleware/client',
-    'react-hot-loader/patch',
-    './client.js'
-  ],
+  entry: {
+    client: [
+      './client.js'
+    ]
+  },
 
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: cssExtract.extract({
-          fallback: 'style-loader',
-          use: ["css-loader"]
-        })
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        // Extract Text Plugin not work with external style antd.
+        // test: /\.less$/,
+        // use: ExtractTextPlugin.extract({
+        //   fallback: 'style-loader',
+        //   use: ['css-loader', 'less-loader']
+        // })
       }
     ]
   },
 
   output: {
     filename: '[name].[hash].js',
-    path: path.resolve(__dirname, '../dist'),
+    chunkFilename: '[name].chunk.js',
+    path: path.resolve(__dirname, '../build/public'),
     publicPath: '/'
   },
 
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     // new BundleAnalyzerPlugin(), // Uncomment this line to analyze the size of your bundle
-    new HtmlWebpackHarddiskPlugin(),
-    cssExtract,
-    new HtmlWebpackPlugin({
-      title: 'React Server-Side Rendering',
-      appMountId: 'react-root',
-      appMountContent: '<%- html %>',
-      window: {
-        __PRELOADED_STATE__: '<%- reduxState %>'
-      },
-      template: 'assets/templates/index.ejs',
-      filename: 'index.ejs',
-      style: 'style.css',
-      inject: false,
-      mobile: true,
-      alwaysWriteToDisk: true,
-      minify: {
-        collapseWhitespace: true,
-        preserveLineBreaks: true
-      }
-    })
+    // new ExtractTextPlugin("style.css"),
+
+    // https://github.com/sporto/assets-webpack-plugin#options
+    new AssetsPlugin({
+      path: path.resolve(__dirname, '../build'),
+      filename: 'assets.json',
+      prettyPrint: true,
+    }),
+
+    // Move modules that occur in multiple entry chunks to a new entry chunk (the commons chunk).
+    // https://webpack.js.org/plugins/commons-chunk-plugin/
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'vendor',
+    //   minChunks: module => /node_modules/.test(module.resource),
+    // }),
   ]
+
+
 });

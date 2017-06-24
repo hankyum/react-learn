@@ -1,0 +1,40 @@
+{
+  "author": "",
+  "dependencies": {
+    "lodash": "^4.8.2",
+    "mime-types": "^2.1.10",
+    "ps-tree": "^1.0.1",
+    "smocks": "^3.2.1"
+  },
+  "description": "OTTO stateful mocking server",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^2.8.0",
+    "eslint-config-google": "^0.5.0",
+    "eslint-plugin-promise": "^1.1.0",
+    "mocha": "^2.4.5",
+    "supertest": "^1.2.0"
+  },
+  "license": "ISC",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "email": "dkleveros@walmartlabs.com",
+      "name": "dklever"
+    }
+  ],
+  "name": "shifu",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git@gecgithub01.walmart.com:otto/shifu.git"
+  },
+  "scripts": {
+    "lint": "node ./node_modules/.bin/eslint . --ext .js",
+    "start-mock": "node ./test/resources/run-mock-server-console.js",
+    "test": "node ./node_modules/.bin/eslint . --ext .js && node ./node_modules/.bin/mocha --recursive",
+    "test-only": "node ./node_modules/.bin/mocha --recursive"
+  },
+  "version": "0.0.20"
+}

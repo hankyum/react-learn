@@ -1,0 +1,98 @@
+{
+  "env": {
+    "node": true,
+    "mocha": true,
+    "es6":   true
+  },
+  "extends": "google",
+  "rules": {
+    "indent": [
+      "error",
+      2
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "no-console": [
+      0
+    ],
+    "no-undef": [
+      0
+    ],
+    "no-redeclare": [
+      0
+    ],
+    "space-before-function-paren": [
+      2, {"named": "never"}
+    ],
+    "new-cap": [
+      0
+    ],
+    "padded-blocks": [
+      0
+    ],
+    "max-len": [
+      2, 120
+    ],
+    "no-negated-condition": [
+      0
+    ],
+    //Should be fixed eventually
+    "comma-spacing": [
+      0
+    ],
+    "object-curly-spacing": [
+      0
+    ],
+    "eqeqeq": [
+      0
+    ],
+    "operator-assignment": [
+      0
+    ],
+    "require-jsdoc": [
+      0
+    ],
+    "radix": [
+      0
+    ],
+    "max-nested-callbacks": [
+      0
+    ],
+    "no-else-return": [
+      0
+    ],
+    "quote-props": [
+      0
+    ],
+    "no-multiple-empty-lines": [
+      0
+    ],
+    "no-implicit-coercion": [
+      0
+    ],
+    "block-scoped-var": [
+      0
+    ],
+    "no-lonely-if": [
+      0
+    ],
+    "spaced-comment": [
+      "error", "always", {
+        "block": {
+          "exceptions": ["*"]
+        }
+      }
+    ]
+
+  }
+}

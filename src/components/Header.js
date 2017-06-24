@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
-const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+import { Layout, Menu } from 'antd';
+const { Header } = Layout;
 
 export default class extends Component {
 

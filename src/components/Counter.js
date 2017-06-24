@@ -3,7 +3,11 @@ import { connect } from "react-redux";
 import { decrement, increment, reset, test } from "../redux/actions/counter-actions";
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Button } from "antd";
+// import { Button } from "antd";
+
+const Button = ({children, ...props}) => {
+  return <button {...props}>{children}</button>;
+};
 
 class IncrementBtn extends Component {
   render() {

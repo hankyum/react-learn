@@ -6,11 +6,10 @@ import Header from "./Header"
 import configStore from "../redux/store/configureStore";
 import routes from "./routes";
 import { REDUX_INIT_STATE } from '../config';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
-const { SubMenu } = Menu;
-const { Content, Sider } = Layout;
+import { Layout } from 'antd';
+const { Content } = Layout;
 import "../styles/app.css";
-import "antd/dist/antd.css";
+// import "antd/dist/antd.css";
 
 const RouteApp = (
   <Switch>

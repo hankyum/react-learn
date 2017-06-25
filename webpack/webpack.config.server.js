@@ -1,8 +1,8 @@
 import path from 'path';
 import webpackMerge from 'webpack-merge';
 import commonConfig from './webpack.config.common';
+import NodeExternals from 'webpack-node-externals';
 // import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'; // eslint-disable-line no-unused-vars
-import nodeExternals from 'webpack-node-externals';
 
 export default webpackMerge(commonConfig, {
   name: 'server',
@@ -30,12 +30,12 @@ export default webpackMerge(commonConfig, {
 
   externals: [
     './assets.json',
-    nodeExternals({
+    NodeExternals({
       whitelist: [
         /\.(css|less|scss|sss)$/i,
       ],
     }),
-    nodeExternals({
+    NodeExternals({
       whitelist: [/^redux\/(store|modules)/]
     })
   ], // in order to ignore all modules in node_modules folder

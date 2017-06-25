@@ -6,11 +6,11 @@
 
 module.exports = {
   "list": [{
-    "name": "antd",
-    "entry": "./antd.js",
-    "title": "antd页面",
+    "name": "client",
+    "entry": "./client.js",
+    "title": "client 页面",
     "filename": "index.html",
     "template": "template.ejs",
-    "chunks": "antd"
+    "chunks": "client"
   }]
 }

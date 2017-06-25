@@ -2,6 +2,9 @@
 <html>
 	<head>
 		<meta charset='UTF-8' />
+    <% if (htmlWebpackPlugin.files.favicon) { %>
+      <link rel="shortcut icon" href="<%= htmlWebpackPlugin.files.favicon%>">
+    <% } %>
 		<!-- 通过配置文件生成title -->
 		<title><%= htmlWebpackPlugin.options.title %></title>
 		<script>
@@ -11,9 +14,15 @@
         flex(100, 1);
     	</script>
     	<!-- 可以在这里引入其他样式文件，业务css会自动生成在下方 -->
+      <% for (var css in htmlWebpackPlugin.files.css) { %>
+        <link href="/<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet">
+      <% } %>
 	</head>
 	<body>
 		<div id='app'></div>
 		<!-- 业务js代码自动生成在下方 -->
+    <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+		  <script src="/<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
+    <% } %>
 	</body>
 </html>

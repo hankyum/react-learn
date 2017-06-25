@@ -3,6 +3,9 @@ import path from 'path';
 import React from "react";
 import { renderToString, renderToStaticMarkup } from "react-dom/server";
 import configureStore from '../src/redux/store/configureStore';
+// Used to solve the third party css load error issue
+// html { ... error https://segmentfault.com/q/1010000008457885
+import csshook from 'css-modules-require-hook/preset';
 import App from './components/App';
 import Html from "./Html";
 import routes from "./components/routes";

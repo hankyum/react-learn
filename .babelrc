@@ -5,15 +5,13 @@
     "react"
   ],
   "plugins": [
-//    [
-//      "import",
-//      {
-//        "style": "css",
-//        "libraryName": "antd"
-//      }
-//    ],
+    "transform-runtime",
     [
-      "css-modules-transform"
+      "import",
+      {
+        "style": "css",
+        "libraryName": "antd"
+      }
     ]
   ]
 }

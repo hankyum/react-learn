@@ -34,10 +34,10 @@ const svgDirs = [
 const plugins = [
   // new ExtractTextPlugin('style.css'),     // 指定css文件名 打包成一个css
   // 分开打包多个css
-  // new ExtractTextPlugin({
-  //   filename: '[name].[contenthash:8].bundle.css',
-  //   allChunks: true,
-  // }),
+  new ExtractTextPlugin({
+    filename: '[name].[contenthash:8].bundle.css',
+    allChunks: true,
+  }),
   new webpack.ProvidePlugin({
     $: "jquery",
     jQuery: "jquery",
@@ -61,7 +61,7 @@ if (isPro) {
 // entry配置
 const entryConfig = {}
 pageConfig.list.map(function (item, index) {
-  // entryConfig[item.name] = item.entry
+  entryConfig[item.name] = item.entry
   let _obj = {
     [item.name]: item.entry
   };
@@ -75,7 +75,8 @@ pageConfig.list.map(function (item, index) {
       template: item.template,
       title: item.title,
       filename: item.filename,
-      chunks: [item.chunks]
+      chunks: [item.chunks],
+      inject: false
     })
   )
 });
@@ -84,11 +85,12 @@ module.exports = {
   context: path.resolve(__dirname, './src'),
   // 配置服务器
   devServer: {
-    contentBase: path.resolve(__dirname, './'), // New
+    contentBase: path.resolve(__dirname, './output'), // New
     port: serverConfig.port,
     host: serverConfig.host,
-    proxy: proxyConfig
-
+    proxy: proxyConfig,
+    publicPath: "/",
+    historyApiFallback: true
   },
   entry: entryConfig,
   output: {
@@ -124,7 +126,11 @@ module.exports = {
       exclude: /node_modules/
     }, {
       test: /\.css$/,
-      use: ['style-loader', 'css-loader']
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        //resolve-url-loader may be chained before lesss-loader if necessary
+        use: ['css-loader']
+      })
     }, {
       test: /\.(woff|woff2|eot|ttf)(\?.*$|$)/,
       use: ['url-loader']
@@ -139,8 +145,8 @@ module.exports = {
   },
   // ant需要
   resolve: {
-    // modules: ['node_modules', path.join(__dirname, './node_modules')],
-    extensions: ['.web.js', '.js', '.json'], // webpack2 不再需要一个空的字符串
+    modules: ['node_modules', path.join(__dirname, './node_modules')],
+    extensions: ['.web.js', '.js', '.json'], // webpack2, 3 不再需要一个空的字符串
   },
   // 不需要打包的模块
   externals: {

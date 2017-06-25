@@ -6,5 +6,5 @@ require('./endpoints');
 require('shifu').start({
   host: host,
   mockedDirectory: "./mock/",
-  port: 8000
+  port: 8001
 });

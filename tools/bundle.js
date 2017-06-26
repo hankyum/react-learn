@@ -19,7 +19,6 @@ function bundle() {
       if (err) {
         return reject(err);
       }
-
       console.info(stats.toString(webpackConfig[0].stats));
       return resolve();
     });

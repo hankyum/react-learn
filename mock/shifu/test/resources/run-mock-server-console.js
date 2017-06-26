@@ -2,7 +2,7 @@
 require('./endpoints');
 var shifu = require('../../index');
 shifu.start({
-  host: 'dev.walmart.com',
+  host: 'localhost',
   mockedDirectory: './test/resources/mocked-data',
   port: 8080
 });

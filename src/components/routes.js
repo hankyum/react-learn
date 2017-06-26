@@ -2,14 +2,15 @@ import Counter from "./Counter";
 import FluxDemo from "../flux/app";
 import Hello from "./Hello";
 import Home from "./Home";
-import { increment, test as testAction } from "../redux/actions/counter-actions";
+import Users from "./Users/Users";
+import { increment, test as testAction, fetchUser } from "../redux/actions/counter-actions";
 
 export default [
   {
     path: "/counter/:num",
     component: Counter,
     actions: [
-      ({ num }) => increment({ 'num': num * 1 }),
+      ({ num }) => increment(num),
       ({ test }) => test && testAction(test * 1)
     ]
   },
@@ -22,6 +23,14 @@ export default [
     path: "/hello",
     component: Hello,
     actions: []
+  },
+  {
+    path: "/users",
+    component: Users,
+    actions: [() => {
+      console.log("Server execute fetchUser");
+      return fetchUser();
+    }]
   },
   {
     exact: true,

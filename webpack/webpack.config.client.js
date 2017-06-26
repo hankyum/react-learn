@@ -16,6 +16,7 @@ export default webpackMerge(commonConfig, {
 
   entry: {
     client: [
+      'babel-polyfill',
       './client.js'
     ]
   },

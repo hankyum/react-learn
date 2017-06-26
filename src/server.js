@@ -1,3 +1,4 @@
+require("babel-core/register");
 import express from 'express';
 import path from 'path';
 import React from "react";
@@ -11,80 +12,65 @@ import Html from "./Html";
 import routes from "./components/routes";
 import { matchPath } from "react-router";
 import assets from "./assets.json";
-
+import flatten from "lodash/flatten";
+import { bindActionCreators } from "redux";
 const app = express();
 const port = process.env.NODE_PORT || 3000;
-const executeActions = (path, query, dispatch) => {
-  const promises =
+const executeActions = (path, query, createdStore) => {
+  return flatten(
     routes
       .map((route) => ( { route, match: matchPath(path, route) } ))
       .filter(({ route, match }) => match && route.actions)
       .map(({ route, match }) =>
-        route.actions.forEach(action => {
-          const finalParams = { ...match.params, ...query };
-          const actionFun = action(finalParams);
-          console.log(" Final params to prefetch actions ", finalParams);
-          actionFun && dispatch(actionFun);
+        route.actions.map(action => {
+          const actions = bindActionCreators({ action }, createdStore.dispatch);
+          return actions.action({ ...match.params, ...query });
         })
-      );
-
-  return Promise.all(promises);
+      )
+  );
 };
 
 app.use(express.static(path.resolve(__dirname, 'public')));
 
 app.get("*", (req, res, next) => {
-  const initData = {};
-  const store = configureStore(initData);
-  executeActions(req.path, req.query, store.dispatch);
+  console.log("--- Server side render start ---");
+  try {
+    const createdStore = configureStore({});
+    const actionPromises = executeActions(req.path, req.query, createdStore);
 
-  const css = new Set();
+    // https://facebook.github.io/react/docs/context.html
+    const context = {};
 
-  // Global (context) variables that can be easily accessed from any React component
-  // https://facebook.github.io/react/docs/context.html
-  const context = {
-    // Enables critical path CSS rendering
-    // https://github.com/kriasoft/isomorphic-style-loader
-    insertCss: (...styles) => {
-      // eslint-disable-next-line no-underscore-dangle
-      styles.forEach(style => css.add(style._getCss()));
-    }/*,
-     // Universal HTTP client
-     fetch: createFetch({
-     baseUrl: config.api.serverUrl,
-     cookie: req.headers.cookie,
-     }),*/
-  };
-
-  const data = {};
-  data.children = renderToString(
-    <App
-      server
-      store={store}
-      location={req.url}
-      context={context}
-    />
-  );
-  console.log("Server side rendering css ", [...css].join(''));
-  data.styles = [
-    { id: 'css', cssText: [...css].join('') },
-  ];
-  data.scripts = [assets.client.js];
-  if (assets.vendor) {
-    data.scripts.push(assets.vendor.js);
+    Promise.all(actionPromises)
+      .then(() => createdStore)
+      .then((store) => {
+        const data = {};
+        data.children = renderToString(
+          <App
+            server
+            store={store}
+            location={req.url}
+            context={context}
+          />
+        );
+        data.scripts = [assets.client.js];
+        if (assets.vendor) {
+          data.scripts.push(assets.vendor.js);
+        }
+        data.css = assets.client.css;
+        data.reduxState = store.getState();
+        if (context.url) {
+          res.redirect(context.url);
+          return;
+        } else {
+          console.log("--- Server side render end ---", JSON.stringify(data, null, 2));
+          const html = renderToStaticMarkup(<Html {...data} />);
+          res.send(`<!doctype html>${html}`).status(200);
+        }
+      });
+  } catch (error) {
+    next();
   }
-  data.css = assets.client.css;
-  data.reduxState = store.getState();
-
-  if (context.url) {
-    res.redirect(context.url);
-    return;
-  } else {
-    const html = renderToStaticMarkup(<Html {...data} />);
-    res.status(200);
-    res.send(`<!doctype html>${html}`);
-  }
-  next();
 });
 
 // Launch the server

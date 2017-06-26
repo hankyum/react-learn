@@ -3,7 +3,7 @@ var ShifuServer = require('./../resources/run-mock-server-api.js');
 var Expect = require('chai').expect;
 var shifu = require('../../lib/index');
 
-var server = Supertest.agent('http://dev.walmart.com:3000');
+var server = Supertest.agent('http://localhost:3000');
 
 describe('set-mock-id-test', function () {
 

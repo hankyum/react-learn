@@ -8,7 +8,6 @@
  */
 import path from 'path';
 import express from 'express';
-import browserSync from 'browser-sync';
 import webpack from 'webpack';
 import logApplyResult from 'webpack/hot/log-apply-result';
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -169,15 +168,6 @@ async function start() {
   app = require('../build/server').default;
   appPromiseIsResolved = true;
   appPromiseResolve();
-
-  // Launch the development server with Browsersync and HMR
-  await new Promise((resolve, reject) => browserSync.create().init({
-    // https://www.browsersync.io/docs/options
-    server: 'src/server.js',
-    middleware: [server],
-    open: !process.argv.includes('--silent'),
-    ...isDebug ? {} : { notify: false, ui: false },
-  }, (error, bs) => (error ? reject(error) : resolve(bs))));
 
   const timeEnd = new Date();
   const time = timeEnd.getTime() - timeStart.getTime();

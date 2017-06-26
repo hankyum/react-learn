@@ -62,5 +62,10 @@
     "no-class-assign": 2,
     "no-cond-assign": 2,
     "no-mixed-spaces-and-tabs": 0
+  },
+  "globals": {
+    "document": true,
+    "_": true,
+    "window": true
   }
 }

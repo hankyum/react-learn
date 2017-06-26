@@ -9,7 +9,7 @@ module.exports = function (shifuOptions) {
   var shifuOptions = shifuOptions || {};
 
   var port = shifuOptions.port || 8000;
-  var host = shifuOptions.host || 'dev.walmart.com';
+  var host = shifuOptions.host || 'localhost';
   var hapiOptions = {port: port, host: host};
   var mockDir = shifuOptions.mockedDirectory || '../mocked-data';
 

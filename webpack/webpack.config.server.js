@@ -8,7 +8,7 @@ export default webpackMerge(commonConfig, {
   name: 'server',
 
   entry: {
-    server: ['./src/server.js'],
+    server: ['babel-polyfill', './src/server.js'],
   },
 
   context: path.resolve(__dirname, '../'),

@@ -40,8 +40,10 @@ const plugins = [
   }),
   new webpack.ProvidePlugin({
     $: "jquery",
+    _: "lodash",
     jQuery: "jquery",
-    "window.jQuery": "jquery"
+    "window.jQuery": "jquery",
+    "window._": "lodash"
   }),
   // new webpack.optimize.ModuleConcatenationPlugin()     // 3.0新功能 范围提升 （Scope Hoisting ）
 ];
@@ -92,6 +94,7 @@ module.exports = {
     publicPath: "/",
     historyApiFallback: true
   },
+  devtool: 'source-map',
   entry: entryConfig,
   output: {
     path: path.resolve(__dirname, './output'),

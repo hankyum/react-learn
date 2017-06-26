@@ -4,7 +4,7 @@ var Expect = require('chai').expect;
 var shifu = require('../../lib/index');
 
 // This agent refers to PORTgit  where program is runninng.
-var server = Supertest.agent('http://dev.walmart.com:3000');
+var server = Supertest.agent('http://localhost:3000');
 
 describe('respond-file-extension-test', function () {
 

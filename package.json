@@ -4,7 +4,7 @@
   "description": "React Redux SSR",
   "main": "server.js",
   "scripts": {
-    "client": "export NODE_ENV=development && webpack-dev-server",
+    "dev": "export NODE_ENV=development && node mock/server & webpack-dev-server",
     "clean": "babel-node tools/run clean",
     "copy": "babel-node tools/run copy",
     "bundle": "babel-node tools/run bundle",
@@ -14,7 +14,9 @@
     "render": "babel-node tools/run render",
     "ssr": "babel-node tools/run bundle && node build/server",
     "start": "babel-node tools/run start",
-    "lint": "eslint --ext .js src"
+    "lint": "eslint --ext .js src",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "author": "Hank Guo",
   "license": "ISC",
@@ -87,6 +89,10 @@
     "smocks": "^7.2.2",
     "smocks-magellan-nightwatch": "3.3.1",
     "style-loader": "^0.18.2",
+    "testarmada-magellan": "^10.0.8",
+    "testarmada-magellan-local-executor": "^2.0.0",
+    "testarmada-magellan-nightwatch-plugin": "^7.0.0",
+    "testarmada-magellan-saucelabs-executor": "^3.0.3",
     "universal-router": "^3.2.0",
     "url-loader": "^0.5.7",
     "webpack": "^3.0.0",
@@ -95,6 +101,7 @@
     "webpack-dev-server": "^2.4.2",
     "webpack-hot-middleware": "^2.18.0",
     "webpack-merge": "^4.0.0",
-    "webpack-node-externals": "^1.6.0"
+    "webpack-node-externals": "^1.6.0",
+    "@storybook/react": "^3.1.6"
   }
 }

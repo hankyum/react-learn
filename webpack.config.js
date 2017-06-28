@@ -2,7 +2,6 @@
  *  Created by shiyanlin
  *  810975746@qq.com
  */
-
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -92,7 +91,8 @@ module.exports = {
     host: serverConfig.host,
     proxy: proxyConfig,
     publicPath: "/",
-    historyApiFallback: true
+    historyApiFallback: true,
+    open: true
   },
   devtool: 'source-map',
   entry: entryConfig,
@@ -132,7 +132,14 @@ module.exports = {
       use: ExtractTextPlugin.extract({
         fallback: 'style-loader',
         //resolve-url-loader may be chained before lesss-loader if necessary
-        use: ['css-loader']
+        use: [
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true
+            }
+          }
+        ]
       })
     }, {
       test: /\.(woff|woff2|eot|ttf)(\?.*$|$)/,

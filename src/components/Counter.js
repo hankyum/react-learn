@@ -25,7 +25,8 @@ class Counter extends Component {
   }
 
   render() {
-    const { counterResult, testResult, decrement, increment, reset, test } = this.props;
+    const { counterResult, testResult, decrement, increment, reset, test, match, location} = this.props;
+    console.log(match, location)
     return (
       <div>
         <h1>Counter Test3</h1>
@@ -37,7 +38,7 @@ class Counter extends Component {
         <Button onClick={() => this._incrementIfOdd()}>incrementIfOdd
         </Button>
         <Button onClick={() => decrement(-1)}>-</Button>
-        <Button onClick={() => test()}>Test</Button>
+        <Button onClick={() => test(1)}>Test</Button>
         <a href="/counter/55?test=100">Test with /counter/55?test=100</a>
       </div>
     )

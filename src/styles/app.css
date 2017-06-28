@@ -1,12 +1,17 @@
 
 h1 {
-	color: #130eff;
+	color: #2d4373;
 }
 
-.test-background {
+.reactLogo {
 	height: 700px;
 	width: 700px;
 	background: url(./tile.png) no-repeat;
+}
+
+.reactLogo h1 {
+	color: #57c5f7;
+	margin: 5px 5px;
 }
 
 .nav li {

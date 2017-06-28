@@ -18,8 +18,8 @@ export const counterReducer = handleActions({
 }, 0);
 
 export const testReducer = handleActions({
-  [TEST]: (state, { payload: count }) => {
-    return count + state;
+  [TEST]: (state, { payload }) => {
+    return state + payload;
   }
 }, 0);
 

@@ -51,7 +51,7 @@ class UserEditModal extends Component {
           { children }
         </span>
         <Modal
-          title="Edit User"
+          title={ name ? "Edit User" : "Create User"}
           visible={this.props.visible || this.state.visible}
           onOk={this.okHandler}
           onCancel={this.hideModelHandler}

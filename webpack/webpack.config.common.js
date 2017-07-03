@@ -5,28 +5,7 @@ export default {
     rules: [
       {
         test: /\.js[x]?$/,
-        use: [{
-          loader: 'babel-loader',
-          options: {
-            "presets": [
-              "es2015",
-              "stage-0",
-              "react"
-            ],
-            "plugins": [
-              [
-                "import",
-                {
-                  "style": "css",
-                  "libraryName": "antd"
-                }
-              ],
-              [
-                "css-modules-transform"
-              ]
-            ]
-          }
-        }],
+        use: 'babel-loader',
         exclude: /node_modules/
       }, {
         test: /\.(eot|svg|ttf|woff|woff2)$/,
@@ -34,17 +13,6 @@ export default {
       }, {
         test: /\.(png|jpg)$/,
         use: 'url-loader?limit=8192'
-      }, {
-        // test: /\.css$/,
-        // use: ExtractTextPlugin.extract({
-        //   fallback: 'isomorphic-style-loader',
-        //   use: [{
-        //     loader: "css-loader",
-        //     query: {
-        //       modules: true
-        //     }
-        //   }]
-        // })
       }
     ]
   },

@@ -2,7 +2,6 @@
  *  Created by shiyanlin
  *  810975746@qq.com
  */
-
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -34,14 +33,16 @@ const svgDirs = [
 const plugins = [
   // new ExtractTextPlugin('style.css'),     // 指定css文件名 打包成一个css
   // 分开打包多个css
-  // new ExtractTextPlugin({
-  //   filename: '[name].[contenthash:8].bundle.css',
-  //   allChunks: true,
-  // }),
+  new ExtractTextPlugin({
+    filename: '[name].[contenthash:8].bundle.css',
+    allChunks: true,
+  }),
   new webpack.ProvidePlugin({
     $: "jquery",
+    _: "lodash",
     jQuery: "jquery",
-    "window.jQuery": "jquery"
+    "window.jQuery": "jquery",
+    "window._": "lodash"
   }),
   // new webpack.optimize.ModuleConcatenationPlugin()     // 3.0新功能 范围提升 （Scope Hoisting ）
 ];
@@ -61,7 +62,7 @@ if (isPro) {
 // entry配置
 const entryConfig = {}
 pageConfig.list.map(function (item, index) {
-  // entryConfig[item.name] = item.entry
+  entryConfig[item.name] = item.entry
   let _obj = {
     [item.name]: item.entry
   };
@@ -75,7 +76,8 @@ pageConfig.list.map(function (item, index) {
       template: item.template,
       title: item.title,
       filename: item.filename,
-      chunks: [item.chunks]
+      chunks: [item.chunks],
+      inject: false
     })
   )
 });
@@ -84,12 +86,16 @@ module.exports = {
   context: path.resolve(__dirname, './src'),
   // 配置服务器
   devServer: {
-    contentBase: path.resolve(__dirname, './'), // New
+    // contentBase: path.resolve(__dirname, './output'), // New
+    contentBase: { target: 'http://localhost:3000' }, // New
     port: serverConfig.port,
     host: serverConfig.host,
-    proxy: proxyConfig
-
+    proxy: proxyConfig,
+    publicPath: "/",
+    historyApiFallback: true,
+    open: true
   },
+  devtool: 'source-map',
   entry: entryConfig,
   output: {
     path: path.resolve(__dirname, './output'),
@@ -124,7 +130,18 @@ module.exports = {
       exclude: /node_modules/
     }, {
       test: /\.css$/,
-      use: ['style-loader', 'css-loader']
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        //resolve-url-loader may be chained before lesss-loader if necessary
+        use: [
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true
+            }
+          }
+        ]
+      })
     }, {
       test: /\.(woff|woff2|eot|ttf)(\?.*$|$)/,
       use: ['url-loader']
@@ -139,8 +156,8 @@ module.exports = {
   },
   // ant需要
   resolve: {
-    // modules: ['node_modules', path.join(__dirname, './node_modules')],
-    extensions: ['.web.js', '.js', '.json'], // webpack2 不再需要一个空的字符串
+    modules: ['node_modules', path.join(__dirname, './node_modules')],
+    extensions: ['.web.js', '.js', '.json'], // webpack2, 3 不再需要一个空的字符串
   },
   // 不需要打包的模块
   externals: {

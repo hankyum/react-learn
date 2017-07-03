@@ -1,9 +1,12 @@
+require("babel-core/register");
+
 import path from 'path';
 import webpackMerge from 'webpack-merge';
 import commonConfig from './webpack.config.common';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'; // eslint-disable-line no-unused-vars
 import ExtractTextPlugin from "extract-text-webpack-plugin";
 import AssetsPlugin from 'assets-webpack-plugin';
+// import webpack from 'webpack';
+// import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'; // eslint-disable-line no-unused-vars
 
 export default webpackMerge(commonConfig, {
   name: 'client',
@@ -13,6 +16,7 @@ export default webpackMerge(commonConfig, {
 
   entry: {
     client: [
+      'babel-polyfill',
       './client.js'
     ]
   },
@@ -21,15 +25,18 @@ export default webpackMerge(commonConfig, {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader']
+        })
       },
       {
-        // Extract Text Plugin not work with external style antd.
-        // test: /\.less$/,
-        // use: ExtractTextPlugin.extract({
-        //   fallback: 'style-loader',
-        //   use: ['css-loader', 'less-loader']
-        // })
+        //Extract Text Plugin not work with external style antd.
+        test: /\.less$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'less-loader']
+        })
       }
     ]
   },
@@ -43,7 +50,7 @@ export default webpackMerge(commonConfig, {
 
   plugins: [
     // new BundleAnalyzerPlugin(), // Uncomment this line to analyze the size of your bundle
-    // new ExtractTextPlugin("style.css"),
+    new ExtractTextPlugin("style.css"),
 
     // https://github.com/sporto/assets-webpack-plugin#options
     new AssetsPlugin({
@@ -54,11 +61,11 @@ export default webpackMerge(commonConfig, {
 
     // Move modules that occur in multiple entry chunks to a new entry chunk (the commons chunk).
     // https://webpack.js.org/plugins/commons-chunk-plugin/
+    // Not work with antd optimize
     // new webpack.optimize.CommonsChunkPlugin({
     //   name: 'vendor',
     //   minChunks: module => /node_modules/.test(module.resource),
     // }),
   ]
-
 
 });

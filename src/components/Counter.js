@@ -4,41 +4,41 @@ import { decrement, increment, reset, test } from "../redux/actions/counter-acti
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Button } from "antd";
+import { bindActionCreators } from "redux";
 
 class IncrementBtn extends Component {
   render() {
-    return <Button onClick={this.props.increment}>Add Num</Button>
+    return <Button onClick={() => this.props.increment(1)}>Add Num</Button>
   }
 }
 
 class Counter extends Component {
 
   constructor(props) {
-    // console.log("Constructor of counter props received: ", props);
     super(props);
   }
 
   _incrementIfOdd() {
-    if (this.props.data % 2 === 1) {
-      this.props.incrementIfOdd();
+    if (this.props.counterResult % 2 === 1) {
+      this.props.increment(1);
     }
   }
 
   render() {
-    const { data, test } = this.props;
-    // console.log("From render method: ", this.props);
+    const { counterResult, testResult, decrement, increment, reset, test, match, location} = this.props;
+    console.log(match, location)
     return (
       <div>
         <h1>Counter Test3</h1>
-        <p>Default Reducer: {data}</p>
-        <p>Test Reducer: {test}</p>
+        <p>Default Reducer: {counterResult}</p>
+        <p>Test Reducer: {testResult}</p>
         <IncrementBtn {...this.props}/>
-        <Button onClick={this.props.increment5}>+5</Button>
-        <Button onClick={this.props.reset}>Reset</Button>
+        <Button onClick={() => increment(5)}>+5</Button>
+        <Button onClick={reset}>Reset</Button>
         <Button onClick={() => this._incrementIfOdd()}>incrementIfOdd
         </Button>
-        <Button onClick={this.props.decrement}>-</Button>
-        <Button onClick={this.props.onTest}>Test</Button>
+        <Button onClick={() => decrement(-1)}>-</Button>
+        <Button onClick={() => test(1)}>Test</Button>
         <a href="/counter/55?test=100">Test with /counter/55?test=100</a>
       </div>
     )
@@ -46,32 +46,16 @@ class Counter extends Component {
 }
 
 Counter.propTypes = {
-  data: PropTypes.number,
-  test: PropTypes.number
+  counterResult: PropTypes.number,
+  testResult: PropTypes.number
 };
 
 export default withRouter(connect(
   (state) => {
-    // console.log("When connect state " + JSON.stringify(state));
     return {
-      data: state.counter,
-      test: state.test
+      counterResult: state.counter,
+      testResult: state.test
     };
   },
-  (dispatch) => {
-    return {
-      increment: () => {
-        dispatch(increment({ num: 1 }));
-      },
-      increment5: () => dispatch(increment({ num: 5 })),
-      reset: () => dispatch(reset(0)),
-      decrement: () => dispatch(decrement(-1)),
-      incrementIfOdd: () => {
-        dispatch(increment({ num: 1 }));
-      },
-      onTest: () => {
-        dispatch(test(1));
-      }
-    }
-  }
+  (dispatch) => bindActionCreators({ decrement, increment, reset, test }, dispatch)
 )(Counter));

@@ -1,10 +1,8 @@
-const shiFu = require('./shifu');
+const server = require('smocks')('smock-example'); // we always have to set a mock server id
 const fs = require('fs');
 const path = require('path');
 const METHODS = ["GET", "POST", "PUT", "DELETE"];
-const DEFAULT_RESPONSE_FILE = 'default';
-
-shiFu.id("mock-example");
+const DEFAULT_RESPONSE_FILE = 'default.json';
 
 const corsHeaders = {
   origin: ['*'],
@@ -15,23 +13,12 @@ const corsHeaders = {
   ],
   credentials: true
 };
-const removeImagesFromReply = (reply) => {
-  return (data) => {
-    // if (process.env.HOST && process.env.HOST.indexOf("dev.xx.com") === -1) {
-    //   return reply(data.replace(/https:\/\/i5.xxx.com/g, ""));
-    // } else {
-    //   return reply(data);
-    // }
-    return reply(data);
-  };
-};
 
 const isJsonFile = (name) => name.indexOf(".json") > 0;
+const varinatName = (name) => name.split(".")[0];
 
 const generateVariantsFromFolder = (folder) => {
-  folder = folder.replace(/[{}]/g, '');
-  const pathName = path.join(__dirname, folder);
-  const dirs = fs.readdirSync(pathName);
+  const dirs = fs.readdirSync(path.join(__dirname, folder));
   const methods = dirs.filter((file) => METHODS.includes(file));
   const nextDirs = dirs.filter((file) => !METHODS.includes(file) && !isJsonFile(file));
   if (methods.length > 0) {
@@ -46,34 +33,23 @@ const generateVariantsFromFolder = (folder) => {
 
 const shiFuRoute = (folder, name, method = "GET") => {
   const id = `${folder}/${method}`.toLowerCase();
-  const route = shiFu.route({
+  const route = server.route({
     id,
     label: folder,
     path: folder,
     method: method,
-    handler: function (req, reply) {
-      console.log("--- mock request payload -- ", req.payload);
-      shiFu.util.respondWithFile(this,
-        removeImagesFromReply(reply),
-        {transpose: req.payload, code: 200 }
-      );
-    },
     config: {
       cors: corsHeaders
     }
-  });
+  }).respondWithFile(`./${folder}/${method}/${DEFAULT_RESPONSE_FILE}`);
 
   fs.readdirSync(path.join(__dirname, folder, method))
     .filter(isJsonFile)
-    .map((name) => name.split(".")[0])
     .filter(name => name !== DEFAULT_RESPONSE_FILE)
     .forEach((name) => {
-      route.variant({
-        id: name,
-        label: name,
-        handler: function (req, reply) {
-          shiFu.util.respondWithFile(this, removeImagesFromReply(reply), { code: parseInt(name) || 200 });
-        }
+      route.variant(varinatName(name)).respondWithFile({
+        code: parseInt(varinatName(name)) || 200,
+        path: `./${folder}/${method}/${name}`
       });
     });
   return route;
@@ -81,3 +57,15 @@ const shiFuRoute = (folder, name, method = "GET") => {
 
 generateVariantsFromFolder("/api/");
 
+
+// now start the server
+server.start({
+  port: 8000,
+  host: 'localhost'
+}, {
+}, function (err) {
+  if (err) {
+    console.log('smocks server not started\n', err);
+    process.exit(1);
+  }
+});

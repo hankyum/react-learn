@@ -86,7 +86,8 @@ module.exports = {
   context: path.resolve(__dirname, './src'),
   // 配置服务器
   devServer: {
-    contentBase: path.resolve(__dirname, './output'), // New
+    // contentBase: path.resolve(__dirname, './output'), // New
+    contentBase: { target: 'http://localhost:3000' }, // New
     port: serverConfig.port,
     host: serverConfig.host,
     proxy: proxyConfig,

@@ -1,8 +1,10 @@
-const server = require('smocks')('smock-example'); // we always have to set a mock server id
+const server = require('smocks'); // we always have to set a mock server id
 const fs = require('fs');
 const path = require('path');
 const METHODS = ["GET", "POST", "PUT", "DELETE"];
 const DEFAULT_RESPONSE_FILE = 'default.json';
+
+server.id('smock-example');
 
 const corsHeaders = {
   origin: ['*'],
@@ -16,6 +18,7 @@ const corsHeaders = {
 
 const isJsonFile = (name) => name.indexOf(".json") > 0;
 const varinatName = (name) => name.split(".")[0];
+const abPath = (filePath) => path.join(__dirname, filePath);
 
 const generateVariantsFromFolder = (folder) => {
   const dirs = fs.readdirSync(path.join(__dirname, folder));
@@ -41,7 +44,7 @@ const shiFuRoute = (folder, name, method = "GET") => {
     config: {
       cors: corsHeaders
     }
-  }).respondWithFile(`./${folder}/${method}/${DEFAULT_RESPONSE_FILE}`);
+  }).respondWithFile(abPath(`./${folder}/${method}/${DEFAULT_RESPONSE_FILE}`));
 
   fs.readdirSync(path.join(__dirname, folder, method))
     .filter(isJsonFile)
@@ -49,7 +52,7 @@ const shiFuRoute = (folder, name, method = "GET") => {
     .forEach((name) => {
       route.variant(varinatName(name)).respondWithFile({
         code: parseInt(varinatName(name)) || 200,
-        path: `./${folder}/${method}/${name}`
+        path: abPath(`/${folder}/${method}/${name}`)
       });
     });
   return route;
@@ -57,15 +60,14 @@ const shiFuRoute = (folder, name, method = "GET") => {
 
 generateVariantsFromFolder("/api/");
 
-
-// now start the server
-server.start({
-  port: 8000,
-  host: 'localhost'
-}, {
-}, function (err) {
-  if (err) {
-    console.log('smocks server not started\n', err);
-    process.exit(1);
-  }
-});
+if (!global.testMode) {
+  require('smocks/hapi').start({
+    port: 8000,
+    host: 'localhost'
+  }, {}, function (err) {
+    if (err) {
+      console.log('smocks server not started\n', err);
+      process.exit(1);
+    }
+  });
+}

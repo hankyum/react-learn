@@ -1,0 +1,10 @@
+{
+  "nightwatch_config": "./tests/nightwatch.json",
+  "bail_early": true,
+  "max_workers": 10,
+  "reporters": [
+    "testarmada-magellan-admiral-plugin"
+  ],
+  "setup_teardown": "./tests/magellan-init.js",
+  "framework": "testarmada-magellan-nightwatch-plugin"
+}

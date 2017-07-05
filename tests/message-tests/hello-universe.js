@@ -2,6 +2,7 @@ var BaseTest = require('../base');
 
 // set the alternate variant of the message fixture and verify that scenario
 module.exports = new BaseTest({
+  'tags': ["universe"],
   'test with variant': function (client) {
     // here we are using a mock server RESTful call to change the
     // variant that the message fixture should be returning (to "hello universe")

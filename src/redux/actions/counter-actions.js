@@ -24,10 +24,15 @@ const createUserSuccess = createAction(USER_CREATE_SUCCESS);
 const updateUserSuccess = createAction(USER_UPDATE_SUCCESS);
 const deleteUserSuccess = createAction(USER_DELETE_SUCCESS);
 
+const match = (global.configMode || '').match(/mocks:?([0-9]*)/);
+
+const apiBase = `http://localhost:${match ? match[1] : '8000'}`;
+const userURL = `${apiBase}/api/users`;
+
 export const fetchUser = () => async dispatch => {
   dispatch(fetchUserRequest());
   try {
-    const response = await get("/api/users");
+    const response = await get(userURL);
     const data = await response.json();
     dispatch(fetchUserSuccess(data));
   } catch (error) {
@@ -38,7 +43,7 @@ export const fetchUser = () => async dispatch => {
 export const createUser = (user) => async (dispatch) => {
   dispatch(fetchUserRequest());
   try {
-    const response = await post("/api/users", {
+    const response = await post(userURL, {
       body: JSON.stringify({...user})
     });
     const data = await response.json();
@@ -51,7 +56,7 @@ export const createUser = (user) => async (dispatch) => {
 export const updateUser = (user) => async (dispatch) => {
   dispatch(fetchUserRequest());
   try {
-    const response = await put("/api/users", {
+    const response = await put(userURL, {
       body: JSON.stringify({...user})
     });
     const data = await response.json();
@@ -64,7 +69,7 @@ export const updateUser = (user) => async (dispatch) => {
 export const deleteUser = (user) => async (dispatch) => {
   dispatch(fetchUserRequest());
   try {
-    const response = await del("/api/users", {
+    const response = await del(userURL, {
       body: JSON.stringify({...user})
     });
     const data = await response.json();

@@ -8,6 +8,8 @@ module.exports = require('smocks-magellan-nightwatch').magellan({
   before: function (options, callback) {
     var config = require('../webpack.config.js');
     config.output.path = options.distPath;
-    require('webpack')(config).run(callback);
+    require('webpack')(config).run(function () {
+      callback(arguments);
+    });
   }
 });

@@ -4,7 +4,7 @@
   "description": "React Redux SSR",
   "main": "server.js",
   "scripts": {
-    "dev": "export NODE_ENV=development && node mock/server & webpack-dev-server",
+    "dev": "export NODE_ENV=development && node mock/run-mock-server & webpack-dev-server",
     "clean": "babel-node tools/run clean",
     "copy": "babel-node tools/run copy",
     "bundle": "babel-node tools/run bundle",

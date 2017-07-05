@@ -39,7 +39,7 @@ const shiFuRoute = (folder, name, method = "GET") => {
   const route = server.route({
     id,
     label: folder,
-    path: folder,
+    path: `${global.testMode ? '/api' : ''}${folder}`,
     method: method,
     config: {
       cors: corsHeaders
@@ -59,15 +59,3 @@ const shiFuRoute = (folder, name, method = "GET") => {
 };
 
 generateVariantsFromFolder("/api/");
-
-if (!global.testMode) {
-  require('smocks/hapi').start({
-    port: 8000,
-    host: 'localhost'
-  }, {}, function (err) {
-    if (err) {
-      console.log('smocks server not started\n', err);
-      process.exit(1);
-    }
-  });
-}

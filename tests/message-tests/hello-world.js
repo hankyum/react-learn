@@ -4,6 +4,6 @@ module.exports = new BaseTest({
   'tags': ["hello"],
   'hello test': function (client) {
     client.url(this.appUrl('/'))
-      .assert.elContainsText('body h1', 'React Router App Demos With Server Side Rendering');
+      .assert.containsText('body h1', 'React Router App Demos With Server Side Rendering');
   }
 });

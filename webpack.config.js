@@ -13,7 +13,7 @@ const optimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const nodeEnv = process.env.NODE_ENV || 'development';
 const isPro = nodeEnv === 'production';
 
-console.log("当前运行环境：", isPro ? 'production' : 'development')
+console.log("当前运行环境：", isPro ? 'production' : 'development');
 
 // 引入页面配置文件
 const pageConfig = require('./config/config.page.js');
@@ -60,9 +60,9 @@ if (isPro) {
 }
 
 // entry配置
-const entryConfig = {}
-pageConfig.list.map(function (item, index) {
-  entryConfig[item.name] = item.entry
+const entryConfig = {};
+pageConfig.list.map(function (item) {
+  entryConfig[item.name] = item.entry;
   let _obj = {
     [item.name]: item.entry
   };
@@ -70,7 +70,7 @@ pageConfig.list.map(function (item, index) {
 });
 
 // 生成html配置
-pageConfig.list.map(function (item, index) {
+pageConfig.list.map(function (item) {
   plugins.push(
     new HtmlWebpackPlugin({
       template: item.template,
@@ -86,7 +86,7 @@ module.exports = {
   context: path.resolve(__dirname, './src'),
   // 配置服务器
   devServer: {
-    contentBase: path.resolve(__dirname, './output'), // New
+    contentBase: path.resolve(__dirname, './build'), // New
     // contentBase: { target: 'http://localhost:3000' }, // New
     port: serverConfig.port,
     host: serverConfig.host,
@@ -98,7 +98,7 @@ module.exports = {
   devtool: 'source-map',
   entry: entryConfig,
   output: {
-    path: path.resolve(__dirname, './output'),
+    path: path.resolve(__dirname, './build'),
     filename: '[name].[chunkhash:8].bundle.js', // 推荐使用 ，但是--hot会报错，
     // filename: '[name].[hash:8].bundle.js',       // --hot时使用，不推荐
     chunkFilename: '[name]-[id].[chunkhash:8].bundle.js', // 代码分割

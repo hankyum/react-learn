@@ -2,6 +2,7 @@ import Counter from "./Counter";
 import FluxDemo from "../flux/app";
 import Hello from "./Hello";
 import Home from "./Home";
+import LineChart from "./chart/LineChart";
 import Users from "./Users/Users";
 import { increment, test as testAction, fetchUser } from "../redux/actions/counter-actions";
 
@@ -17,6 +18,11 @@ export default [
   {
     path: "/todo",
     component: FluxDemo,
+    actions: []
+  },
+  {
+    path: "/chart",
+    component: LineChart,
     actions: []
   },
   {

@@ -1,7 +1,7 @@
 {
   "name": "test-project",
   "version": "1.0.0",
-  "description": "React Redux SSR",
+  "description": "React Redux SSR demo",
   "main": "server.js",
   "scripts": {
     "dev": "export NODE_ENV=development && node mock/run-mock-server & webpack-dev-server",

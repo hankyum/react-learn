@@ -22,7 +22,7 @@
   "author": "Hank Guo",
   "license": "ISC",
   "pre-commit": [
-    "lint"
+
   ],
   "dependencies": {
     "antd": "2.6.1",
